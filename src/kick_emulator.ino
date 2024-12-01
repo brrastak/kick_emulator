@@ -90,6 +90,7 @@ Mode proceed_single(MotorState& state) {
     switch (state)
     {
     case MotorState::stopped:
+    case MotorState::waiting:
         state = MotorState::moving_forth;
         counter.reset();
         break;
@@ -103,10 +104,12 @@ Mode proceed_single(MotorState& state) {
     case MotorState::moving_back:
         if (counter.is_timeout_passed(config::moving_time)) {
             state = MotorState::stopped;
-            mode = Mode::manual;
+            return Mode::manual;
         }
         break;
     }
+
+    return Mode::single;
 }
 
 void proceed_automatic(MotorState& state) {
