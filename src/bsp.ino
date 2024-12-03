@@ -60,17 +60,17 @@ cmn::Button& Bsp::back_button() {
 }
 
 void Bsp::move_forth() {
-    analogWrite(bsp::l_en_pin, 0);
-    analogWrite(bsp::r_pwm_pin, bsp::pwm_value);
-}
-
-void Bsp::move_back() {
-    analogWrite(bsp::r_en_pin, 0);
+    analogWrite(bsp::r_pwm_pin, 0);
     analogWrite(bsp::l_pwm_pin, bsp::pwm_value);
 }
 
+void Bsp::move_back() {
+    analogWrite(bsp::l_pwm_pin, 0);
+    analogWrite(bsp::r_pwm_pin, bsp::pwm_value);
+}
+
 void Bsp::stop_motor() {
-    analogWrite(bsp::l_en_pin, 0);
+    analogWrite(bsp::l_pwm_pin, 0);
     analogWrite(bsp::r_pwm_pin, 0);
 }
 
