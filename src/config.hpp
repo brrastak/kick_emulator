@@ -7,8 +7,9 @@ namespace config
 {
 
 // Timings in ms
-constexpr uint16_t moving_time = 1000;
-constexpr uint16_t waiting_time = 5000;
+constexpr uint16_t forth_moving_time = 800;
+constexpr uint16_t back_moving_time = 900;
+constexpr uint16_t waiting_time = 10;
 
 }
 

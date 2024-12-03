@@ -43,11 +43,16 @@ void loop() {
 
     // Mode control
     if (board.mode_button().was_released()) {
-        if (board.mode_button().get_press_duration() < 500) {
-            mode = Mode::single;
+        if (mode == Mode::manual) {
+            if (board.mode_button().get_press_duration() < 500) {
+                mode = Mode::single;
+            }
+            else {
+                mode = Mode::automatic;
+            }
         }
         else {
-            mode = Mode::automatic;
+            mode = Mode::manual;
         }
     }
     if (board.forth_button().was_pressed() || board.back_button().was_pressed()) {
@@ -96,13 +101,13 @@ Mode proceed_single(MotorState& state) {
         break;
 
     case MotorState::moving_forth:
-        if (counter.is_timeout_passed(config::moving_time)) {
+        if (counter.is_timeout_passed(config::forth_moving_time)) {
             state = MotorState::moving_back;
         }
         break;
 
     case MotorState::moving_back:
-        if (counter.is_timeout_passed(config::moving_time)) {
+        if (counter.is_timeout_passed(config::back_moving_time)) {
             state = MotorState::stopped;
             return Mode::manual;
         }
@@ -123,13 +128,13 @@ void proceed_automatic(MotorState& state) {
         break;
 
     case MotorState::moving_forth:
-        if (counter.is_timeout_passed(config::moving_time)) {
+        if (counter.is_timeout_passed(config::forth_moving_time)) {
             state = MotorState::moving_back;
         }
         break;
 
     case MotorState::moving_back:
-        if (counter.is_timeout_passed(config::moving_time)) {
+        if (counter.is_timeout_passed(config::back_moving_time)) {
             state = MotorState::waiting;
         }
         break;
